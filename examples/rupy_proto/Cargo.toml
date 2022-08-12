@@ -1,19 +1,20 @@
 [package]
-name = "rupy-proto"
+name = "rupy"
 version = "0.1.0"
-edition = "2018"
+edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [lib]
 crate-type = ["rlib", "cdylib"]
+name = "rupy"
 
 [features]
 extension-module = ["pyo3/extension-module"]
 default = ["extension-module"]
 
 [dependencies]
-prost = "0.8.0"
-prost-build = "0.8.0"
-pyo3 = "0.14.1"
+prost = "0.11"
+prost-build = "0.11"
+pyo3 = "0.16"
 pyo3-prost = {path = "../.."}

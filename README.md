@@ -2,11 +2,9 @@
 
 pyo3-prost exposes Rust protobuf structs to Python.
 
-[Docs](https://docs.rs/pyo3-prost/0.1.0/pyo3_prost/)
 []
 
-
-```
+```text
 # A simple decoding benchmark
 Python:  14.008996680990094
 Rust  :  0.5708326659951126
@@ -26,11 +24,12 @@ b'\n\x11Hi this is a text\x10\xfb\x99K"\x1b\n\x03Who\x12\x14https://example.com/
 ```
 
 All you need is adding a single line
-```
+
+```text
 .type_attribute(".", "#[::pyo3_prost::pyclass_for_prost_struct]")
 ```
-to your prost or tonic build.
 
+to your prost or tonic build.
 
 The intended use-case is when your Python project is locked down to Protobuf and you want to migrate some part to native modules in Rust.
 Python protobuf objects cannot be easily handled in the Rust side.
@@ -40,6 +39,7 @@ With `pyo3-prost` you can decode the bytes to Rust structs in Python from the be
 ## How it works
 
 The derive macro `pyclass_for_prost_struct` will add
+
 1. `#[pyclass]` to prost-generated structs
 2. `#[pyo3(get, set)]` for each field (except oneof fields).
 3. `#[pymethods]` with `encode() -> &PyBytes`, `decode(&PyBytes) -> Self`, `decode_merge(&mut self, &PyBytes)`.
@@ -56,6 +56,7 @@ The derive macro `pyclass_for_prost_struct` will add
 4. Run the bench `cd examples/rupy_proto && PYTHONPATH=. python bench.py`.
 
 ## Limitations (for now)
+
 Accessing numeric fields is fast. However each access to a repeated, map, or message field may return a cloned Python object.
 For example `obj.list_field.clear()` will only clear the returned copy, leaving the actual value untouched.
 

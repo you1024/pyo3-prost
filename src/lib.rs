@@ -88,14 +88,11 @@ fn pyclass_for_prost_struct_impl(input: proc_macro2::TokenStream) -> proc_macro2
                 pub fn clear(&mut self) {
                     *self = Default::default();
                 }
-            }
 
-            #[::pyo3::prelude::pyproto]
-            impl ::pyo3::class::basic::PyObjectProtocol for #struct_name {
-                fn __repr__(&self) -> ::pyo3::PyResult<String> {
+                pub fn __repr__(&self) -> ::pyo3::PyResult<String> {
                     Ok(format!("{:?}", self))
                 }
-                fn __str__(&self) -> ::pyo3::PyResult<String> {
+                pub fn __str__(&self) -> ::pyo3::PyResult<String> {
                     Ok(format!("{:#?}", self))
                 }
             }
@@ -119,7 +116,7 @@ mod tests {
         let ts = proc_macro2::TokenStream::from_str(
             "#[derive(Clone, PartialEq, ::prost::Message)]\npub struct MarginUpdate { a: i32, pub b:String,}",
         )
-        .unwrap();
+            .unwrap();
         println!("{}", super::pyclass_for_prost_struct_impl(ts));
     }
 }
